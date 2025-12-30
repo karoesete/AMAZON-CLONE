@@ -25,6 +25,8 @@ app.use(
 
 // Routes
 app.get("/", (req, res) => res.json({ message: "API running" }));
+// Provide a response at /api for browsers or clients requesting the API root
+app.get("/api", (req, res) => res.json({ message: "API running" }));
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/orders", orderRoutes);
