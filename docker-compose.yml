@@ -17,8 +17,8 @@ services:
     container_name: mongo-express
     restart: unless-stopped
     environment:
-      ME_CONFIG_MONGODB_ADMINUSERNAME: mongoadmin
-      ME_CONFIG_MONGODB_ADMINPASSWORD: secretpass123
+      # Connect as the application DB user created earlier (appuser)
+      ME_CONFIG_MONGODB_URL: "mongodb://appuser:AppUserPass123!@mongo:27017/amazon_clone?authSource=amazon_clone"
       ME_CONFIG_MONGODB_SERVER: mongo
       ME_CONFIG_BASICAUTH_USERNAME: user
       ME_CONFIG_BASICAUTH_PASSWORD: userpass123
