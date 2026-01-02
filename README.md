@@ -62,7 +62,7 @@ Open the frontend at http://localhost:5173. The backend runs on http://localhost
 
 Environment variables
 
-Backend uses `backend/.env`. Example:
+Backend uses `backend/.env`. Example (also provided as `backend/.env.example`):
 
 ```
 PORT=5000
@@ -76,9 +76,10 @@ Adjust `MONGO_URI` if your Mongo server uses a different host, port, or authenti
 
 Docker Compose (one-command setup)
 
-The repository includes a `docker-compose.yml` that runs three services:
+The repository includes a `docker-compose.yml` that runs multiple services:
 
 - `mongo` — MongoDB with a data volume and init script
+- `mongo-express` — lightweight MongoDB admin UI (mongo-express) for local inspection
 - `backend` — Node backend built from `backend/Dockerfile`
 - `frontend` — Frontend built from `frontend/Dockerfile` and served with nginx
 
@@ -97,6 +98,9 @@ Access
 
 - Backend API: http://localhost:5000/api
 - Frontend: http://localhost:5173
+- Mongo Express UI: http://localhost:8081 (mongo-express service)
+
+Note: the frontend container serves the app on container port 80, which is mapped to host port 5173 in the compose file, so the app remains available at http://localhost:5173.
 
 Stopping
 
@@ -106,8 +110,10 @@ docker compose down
 
 Notes about Mongo init
 
-- The init script `mongo-init/init-user.js` runs only if MongoDB initializes with an empty data directory. If you already have existing data without the `appuser`, use the temporary-container flow described in Troubleshooting below to add the user.
-- The compose file sets the `backend` `MONGO_URI` to `mongodb://appuser:AppUserPass123!@mongo:27017/amazon_clone?authSource=amazon_clone` so the backend connects to the `mongo` service on the Docker network.
+-- The init script `mongo-init/init-user.js` runs only if MongoDB initializes with an empty data directory. If you already have existing data without the `appuser`, use the temporary-container flow described in Troubleshooting below to add the user.
+-- The compose file sets the `backend` `MONGO_URI` to `mongodb://appuser:AppUserPass123!@mongo:27017/amazon_clone?authSource=amazon_clone` so the backend connects to the `mongo` service on the Docker network.
+
+There is also an alternate compose file `docker-compose-mongo.yml` in the repository root for mongo-focused workflows (useful if you want to run only Mongo-related services or customize the init flow).
 
 API overview
 
