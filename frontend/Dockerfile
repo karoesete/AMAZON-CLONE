@@ -1,10 +1,14 @@
 # Build stage
-FROM node:18-alpine AS build
+# application  is built in a lightweight Node.js environment
+
+FROM node:18-alpine AS build 
 WORKDIR /usr/src/app
 
+# Install app dependencies
 COPY package*.json ./
 RUN npm ci
 
+# Bundle app source
 COPY . .
 RUN npm run build
 
